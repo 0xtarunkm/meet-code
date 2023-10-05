@@ -65,8 +65,8 @@ model Problem {
 
 model TestCase {
   id         String      @id @default(uuid())
-  input      String
-  output     String
+  input      String[]
+  output     String[]
   problemId  String
   // Define a many-to-one relationship with Problem
   problem    Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade, onUpdate: Cascade)

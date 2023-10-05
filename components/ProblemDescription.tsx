@@ -18,7 +18,6 @@ export default function ProblemDescription({
           {/* Problem heading */}
           <div className="p-4">
             <div className="flex space-x-4 items-center">
-              <div className="font-medium">{problem.id}.</div>
               <div className="flex-1 mr-2 text-2xl font-medium">
                 {problem.title}
               </div>
@@ -40,13 +39,17 @@ export default function ProblemDescription({
 
             {problem.testCases?.map((testCase, index) => (
               <div
-                key={testCase.id}
+                key={index}
                 className=" bg-secondary p-4 rounded text-sm mt-4"
               >
-                <p>Example {index + 1}:</p>
+                <p className="font-semibold text-lg mb-2">
+                  Example {index + 1}:
+                </p>
 
-                <p>{`Input: [ ${testCase.input} ]`}</p>
-                <p>{`Output: [ ${testCase.output} ]`}</p>
+                <p className="mb-2">{`Input: [ ${testCase.input.join(
+                  ', '
+                )} ]`}</p>
+                <p>{`Output: [ ${testCase.output.join(', ')} ]`}</p>
               </div>
             ))}
 

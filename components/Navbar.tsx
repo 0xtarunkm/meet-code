@@ -1,10 +1,6 @@
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
-import {
-  ChevronDoubleRightIcon,
-  ChevronDoubleLeftIcon,
-} from '@heroicons/react/24/outline';
 import { QueueListIcon } from '@heroicons/react/24/solid';
 
 export default function Navbar({ problemPage }: { problemPage?: boolean }) {
@@ -29,17 +25,11 @@ export default function Navbar({ problemPage }: { problemPage?: boolean }) {
       {/* Middle section  */}
       {problemPage && (
         <div className=" items-center gap-6 w-fit justify-center border-2 border-black rounded-full px-4 py-1 bg-primary text-white hidden md:flex">
-          <div className="flex items-center justify-center rounded h-8 w-8 cursor-pointer hover:bg-secondary duration-300">
-            <ChevronDoubleLeftIcon className="h-6 w-6" />
-          </div>
           <div className="hover:scale-110 duration-200 ease-in-out">
-            <Link href="/problems" className="flex items-center">
+            <Link href="/problems" className="flex items-center px-6 py-1">
               <QueueListIcon className="h-6 w-6" />
               <p className="text-sm ml-2">Problems List</p>
             </Link>
-          </div>
-          <div className="flex items-center justify-center rounded h-8 w-8 cursor-pointer hover:bg-secondary duration-300">
-            <ChevronDoubleRightIcon className="h-6 w-6" />
           </div>
         </div>
       )}

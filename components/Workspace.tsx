@@ -1,6 +1,5 @@
 import Split from 'react-split';
 import ProblemDescription from './ProblemDescription';
-import { GetServerSideProps } from 'next';
 import { ProblemInput } from '@/utils/inputValidation';
 import Playground from './Playground';
 

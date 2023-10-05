@@ -38,16 +38,11 @@ export default async function ProblemHandler(
             create: tags.map((tag) => ({ name: tag })),
           },
           testCases: {
-            createMany: {
-              data: testCases.map((testCase) => ({
-                input: testCase.input,
-                output: testCase.output,
-              })),
-            },
+            create: testCases.map((testCase) => ({
+              input: testCase.input,
+              output: testCase.output,
+            })),
           },
-        },
-        include: {
-          testCases: true, // Include test cases in the response
         },
       });
 

@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Split from 'react-split';
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { javascript } from '@codemirror/lang-javascript';
+import { testCasesState } from '@/store/selectors/problemSelector';
+import { useRecoilValue } from 'recoil';
 
 export default function Playground() {
+  const testCases = useRecoilValue(testCasesState);
+  const [code, setCode] = useState(`function solution() {
+    // write your code here
+}`);
+  const [index, setIndex] = useState(0);
+
   return (
     <div className="flex flex-col">
       <Split
@@ -15,9 +23,8 @@ export default function Playground() {
       >
         <div className="w-full overflow-auto">
           <CodeMirror
-            value={`function solution() {
-    // write your code here
-}`}
+            value={code}
+            onChange={(value) => setCode(value)}
             theme={vscodeDark}
             extensions={[javascript()]}
             style={{ fontSize: '16px' }}
@@ -36,9 +43,15 @@ export default function Playground() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="test-case-btn">case 1</div>
-              <div className="test-case-btn">case 2</div>
-              <div className="test-case-btn">case 3</div>
+              {testCases.map((testCase, index) => (
+                <div
+                  className="test-case-btn"
+                  key={index}
+                  onClick={() => setIndex(index)}
+                >
+                  case {index + 1}
+                </div>
+              ))}
             </div>
 
             {/* input */}
@@ -46,14 +59,18 @@ export default function Playground() {
               <div className="text-sm font-medium leading-5 text-white">
                 Input
               </div>
-              <div className="w-full h-14 mt-2 p-2 rounded bg-secondary text-white"></div>
+              <div className="w-full h-14 mt-2 p-2 rounded bg-secondary text-white">
+                {testCases[index].input.join(', ')}
+              </div>
 
               {/* output */}
               <div className="flex flex-col mt-4">
                 <div className="text-sm font-medium leading-5 text-white">
                   Output
                 </div>
-                <div className="w-full h-14 mt-2 p-2 rounded bg-secondary text-white"></div>
+                <div className="w-full h-14 mt-2 p-2 rounded bg-secondary text-white">
+                  {testCases[index].output.join(', ')}
+                </div>
               </div>
             </div>
           </div>

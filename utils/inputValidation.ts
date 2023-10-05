@@ -23,9 +23,8 @@ export const ProblemInputObject = z.object({
   tags: z.array(z.string()),
   testCases: z.array(
     z.object({
-      id: z.string().optional(),
-      input: z.string().and(z.object({})).and(z.array(z.string())),
-      output: z.string().and(z.object({})).and(z.array(z.string())),
+      input: z.array(z.string()),
+      output: z.array(z.string()),
     })
   ),
 });
