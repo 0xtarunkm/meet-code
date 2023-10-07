@@ -46,10 +46,15 @@ export default function ProblemDescription({
                   Example {index + 1}:
                 </p>
 
-                <p className="mb-2">{`Input: [ ${testCase.input.join(
-                  ', '
-                )} ]`}</p>
-                <p>{`Output: [ ${testCase.output.join(', ')} ]`}</p>
+                {/* Display structured input and output as JSON */}
+                <div className="mb-2">
+                  <p>Input:</p>
+                  <pre>{JSON.stringify(testCase.input, null, 2)}</pre>
+                </div>
+                <div>
+                  <p>Output:</p>
+                  <pre>{JSON.stringify(testCase.output, null, 2)}</pre>
+                </div>
               </div>
             ))}
 

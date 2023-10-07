@@ -1,10 +1,14 @@
 import { testCasesState } from '@/store/selectors/problemSelector';
-import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-export default function TestCases() {
+export default function TestCases({
+  index,
+  setIndex,
+}: {
+  index: number;
+  setIndex: Function;
+}) {
   const testCases = useRecoilValue(testCasesState);
-  const [index, setIndex] = useState(0);
 
   return (
     <div className="px-4">
@@ -18,30 +22,26 @@ export default function TestCases() {
       </div>
 
       <div className="flex items-center space-x-4">
-        {testCases.map((testCase, index) => (
-          <div
-            className="test-case-btn"
-            key={index}
-            onClick={() => setIndex(index)}
-          >
-            case {index + 1}
+        {testCases.map((testCase, i) => (
+          <div className={`test-case-btn`} key={i} onClick={() => setIndex(i)}>
+            case {i + 1}
           </div>
         ))}
       </div>
 
-      {/* input */}
+      {/* Input */}
       <div className="flex flex-col mt-4">
         <div className="text-sm font-medium leading-5 text-white">Input</div>
-        <div className="w-full h-14 mt-2 p-2 rounded bg-secondary text-white">
-          {testCases[index].input.join(', ')}
+        <div className="w-full mt-2 p-2 rounded bg-secondary text-white">
+          <pre>{JSON.stringify(testCases[index].input, null, 2)}</pre>
         </div>
+      </div>
 
-        {/* output */}
-        <div className="flex flex-col mt-4">
-          <div className="text-sm font-medium leading-5 text-white">Output</div>
-          <div className="w-full h-14 mt-2 p-2 rounded bg-secondary text-white">
-            {testCases[index].output.join(', ')}
-          </div>
+      {/* Output */}
+      <div className="flex flex-col mt-4">
+        <div className="text-sm font-medium leading-5 text-white">Output</div>
+        <div className="w-full mt-2 p-2 rounded bg-secondary text-white">
+          <pre>{JSON.stringify(testCases[index].output, null, 2)}</pre>
         </div>
       </div>
     </div>

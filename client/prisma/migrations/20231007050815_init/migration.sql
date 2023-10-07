@@ -57,8 +57,8 @@ CREATE TABLE "Problem" (
 -- CreateTable
 CREATE TABLE "TestCase" (
     "id" TEXT NOT NULL,
-    "input" TEXT[],
-    "output" TEXT[],
+    "input" TEXT NOT NULL,
+    "output" TEXT NOT NULL,
     "problemId" TEXT NOT NULL,
 
     CONSTRAINT "TestCase_pkey" PRIMARY KEY ("id")

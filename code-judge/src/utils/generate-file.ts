@@ -17,3 +17,7 @@ export const generateFile = async (format: string, code: string) => {
 
   return filePath;
 };
+
+export const deleteFile = async (filePath: string) => {
+  await fs.unlinkSync(filePath);
+};

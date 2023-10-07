@@ -7,9 +7,8 @@ import TestCases from './TestCases';
 import SubmissionButtons from './SubmissionButtons';
 
 export default function Playground() {
-  const [code, setCode] = useState(`function solution() {
-    // write your code here
-}`);
+  const [code, setCode] = useState(`console.log('Hello World!')`);
+  const [index, setIndex] = useState(0);
 
   return (
     <div className="flex flex-col">
@@ -30,9 +29,9 @@ export default function Playground() {
         </div>
         <div className="w-full overflow-auto">
           {/* heading */}
-          <TestCases />
+          <TestCases index={index} setIndex={setIndex} />
           {/* Submit Button */}
-          <SubmissionButtons code={code} />
+          <SubmissionButtons code={code} index={index} />
         </div>
       </Split>
     </div>

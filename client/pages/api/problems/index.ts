@@ -35,7 +35,9 @@ export default async function ProblemHandler(
           description,
           difficulty,
           tags: {
-            create: tags.map((tag) => ({ name: tag })),
+            create: tags.map((tag) => ({
+              name: tag,
+            })),
           },
           testCases: {
             create: testCases.map((testCase) => ({

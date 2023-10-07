@@ -23,8 +23,8 @@ export const ProblemInputObject = z.object({
   tags: z.array(z.string()),
   testCases: z.array(
     z.object({
-      input: z.array(z.string()),
-      output: z.array(z.string()),
+      input: z.string(),
+      output: z.string(),
     })
   ),
 });

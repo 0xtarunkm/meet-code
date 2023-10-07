@@ -10,7 +10,7 @@ export default function ProblemsPage({
   return (
     <div>
       <Navbar />
-      <div className="bg-primary overflow-y-scroll">
+      <div className="bg-primary overflow-y-scroll h-screen">
         <div>
           {problems.map((problem) => {
             const difficultyColor =
