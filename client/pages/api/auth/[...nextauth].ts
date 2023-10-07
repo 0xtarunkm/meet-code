@@ -12,4 +12,10 @@ export default NextAuth({
     }),
   ],
   secret: process.env.SECRET!,
+  callbacks: {
+    // @ts-ignore
+    session({ session, token, user }) {
+      return { session, user }; // The return type will match the one returned in `useSession()`
+    },
+  },
 });

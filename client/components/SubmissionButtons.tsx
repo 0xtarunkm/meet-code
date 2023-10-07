@@ -3,6 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function SubmissionButtons({
   code,
@@ -11,14 +12,20 @@ export default function SubmissionButtons({
   code: string;
   index: number;
 }) {
+  const [verdict, setVerdict] = useState('');
   const problem = useRecoilValue(problemState);
+  const { data: session } = useSession();
 
   const [accepted, setAccepted] = useState(false);
 
   const handleSubmit = async () => {
-    const res = await axios.post('/api/submissions', {
+    const res = await axios.post(`http://localhost:3000/api/submissions`, {
       code,
-      input: problem.testCases[0].input,
+      problemId: problem.id,
+      // @ts-ignore
+      userId: session?.user?.id,
+      verdict,
+      language: 'js',
     });
 
     console.log(res.data);
@@ -37,9 +44,11 @@ export default function SubmissionButtons({
 
     if (res.data.accepted) {
       toast.success('Accepted');
+      setVerdict('Accepted');
       setAccepted(true);
     } else {
       toast.error('Wrong Answer');
+      setVerdict('Wrong Answer');
       setAccepted(false);
     }
   };
@@ -57,10 +66,9 @@ export default function SubmissionButtons({
           Run
         </button>
         <button
-          className={`p-1 sm:px-3 sm:py-1 bg-secondary text-white ${
-            accepted && 'bg-green-500'
-          } sm:font-semibold rounded-md transition duration-300 ease-in-out text-sm sm:text-base`}
+          className={`p-1 sm:px-3 sm:py-1 bg-secondary text-white  sm:font-semibold rounded-md transition duration-300 ease-in-out text-sm sm:text-base disabled:opacity-50`}
           onClick={handleSubmit}
+          disabled={!accepted}
         >
           Submit
         </button>

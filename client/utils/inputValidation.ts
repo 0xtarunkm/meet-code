@@ -29,4 +29,13 @@ export const ProblemInputObject = z.object({
   ),
 });
 
+export const SubmissionInputObject = z.object({
+  code: z.string().min(1).max(10000),
+  language: z.enum(['js']),
+  verdict: z.enum(['Accepted', 'Wrong Answer', 'Time Limit Exceeded']),
+  userId: z.string(),
+  problemId: z.string(),
+});
+
 export type ProblemInput = z.infer<typeof ProblemInputObject>;
+export type SubmissionInput = z.infer<typeof SubmissionInputObject>;

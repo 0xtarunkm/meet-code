@@ -1,5 +1,7 @@
+import { prisma } from '@/prisma';
+import { SubmissionInputObject } from '@/utils/inputValidation';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { publishCode } from '../../../utils/publishToQueue';
+import { getSession } from 'next-auth/react';
 
 export default async function SubmissionsHandler(
   req: NextApiRequest,
@@ -7,12 +9,50 @@ export default async function SubmissionsHandler(
 ) {
   try {
     if (req.method === 'POST') {
-      // publish the code and input to the queue
-      const { code, input } = req.body;
+      const parsedSubmissionInput = SubmissionInputObject.safeParse(req.body);
 
-      const result = await publishCode(code, input);
+      if (!parsedSubmissionInput.success) {
+        return res.status(400).json({ message: parsedSubmissionInput.error });
+      }
 
-      return res.status(200).json({ message: 'Success', data: result });
+      const { code, language, verdict, userId, problemId } =
+        parsedSubmissionInput.data;
+
+      const submission = await prisma.submission.create({
+        data: {
+          code,
+          language,
+          verdict,
+          user: {
+            connect: {
+              id: userId as string,
+            },
+          },
+          problem: {
+            connect: {
+              id: problemId as string,
+            },
+          },
+        },
+      });
+
+      res.status(200).json({ submission });
+    } else if (req.method == 'GET') {
+      const submissions = await prisma.submission.findMany({
+        where: {
+          userId: req.query.userId as string,
+          problemId: req.query.problemId as string,
+        },
+        include: {
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+
+      res.status(200).json({ submissions });
     }
   } catch (error: any) {
     res.status(500).json({ message: error.message });

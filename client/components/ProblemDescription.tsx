@@ -1,4 +1,10 @@
-import { ProblemInput } from '@/utils/inputValidation';
+import { ProblemInput, SubmissionInput } from '@/utils/inputValidation';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import ProblemExamples from './ProblemExamples';
+import Constraints from './Constraints';
+import Submissions from './Submissions';
 
 export default function ProblemDescription({
   problem,
@@ -11,6 +17,26 @@ export default function ProblemDescription({
       : problem.difficulty === 'Medium'
       ? 'text-yellow-500'
       : 'text-red-500';
+
+  const { data: session } = useSession();
+
+  const [submissions, setSubmissions] = useState<SubmissionInput[]>([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmission = async () => {
+    const res = await axios.get(
+      `http://localhost:3000/api/submissions?userId=${session?.user?.id}&problemId=${problem.id}`
+    );
+
+    console.log(res.data.submissions);
+
+    setSubmissions(res.data.submissions);
+  };
+
+  useEffect(() => {
+    handleSubmission();
+  }, []);
+
   return (
     <div className="text-white">
       <div className="flex px-0 py-2 h-[calc(100vh-55px)] overflow-y-auto">
@@ -21,6 +47,12 @@ export default function ProblemDescription({
               <div className="flex-1 mr-2 text-2xl font-medium">
                 {problem.title}
               </div>
+              <button
+                className="btn"
+                onClick={() => setIsSubmitted(!isSubmitted)}
+              >
+                {!isSubmitted ? 'Examples' : 'Submissions'}
+              </button>
             </div>
             <div className="flex items-center mt-3 w-[500px]">
               <div
@@ -35,48 +67,17 @@ export default function ProblemDescription({
               <p className="mt-3">{problem.description}</p>
             </div>
 
-            {/* Examples */}
+            {!isSubmitted ? (
+              <Submissions submissions={submissions} />
+            ) : (
+              <>
+                {/* Examples */}
+                <ProblemExamples problem={problem} />
 
-            {problem.testCases?.map((testCase, index) => (
-              <div
-                key={index}
-                className=" bg-secondary p-4 rounded text-sm mt-4"
-              >
-                <p className="font-semibold text-lg mb-2">
-                  Example {index + 1}:
-                </p>
-
-                {/* Display structured input and output as JSON */}
-                <div className="mb-2">
-                  <p>Input:</p>
-                  <pre>{JSON.stringify(testCase.input, null, 2)}</pre>
-                </div>
-                <div>
-                  <p>Output:</p>
-                  <pre>{JSON.stringify(testCase.output, null, 2)}</pre>
-                </div>
-              </div>
-            ))}
-
-            {/* Constraints */}
-            <div className="my-5 text-sm">
-              <div className="text-white text-sm font-medium">Constraints:</div>
-              <ul className="text-white ml-5 list-disc">
-                <li className="mt-2">
-                  <code>2 ≤ nums.length ≤ 10</code>
-                </li>
-
-                <li className="mt-2">
-                  <code>-10 ≤ nums[i] ≤ 10</code>
-                </li>
-                <li className="mt-2">
-                  <code>-10 ≤ target ≤ 10</code>
-                </li>
-                <li className="mt-2 text-sm">
-                  <strong>Only one valid answer exists.</strong>
-                </li>
-              </ul>
-            </div>
+                {/* Constraints */}
+                <Constraints />
+              </>
+            )}
           </div>
         </div>
       </div>
