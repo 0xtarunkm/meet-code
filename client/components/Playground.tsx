@@ -7,7 +7,7 @@ import TestCases from './TestCases';
 import SubmissionButtons from './SubmissionButtons';
 
 export default function Playground() {
-  const [code, setCode] = useState(`console.log('Hello World!')`);
+  const [code, setCode] = useState(message);
   const [index, setIndex] = useState(0);
 
   return (
@@ -37,3 +37,13 @@ export default function Playground() {
     </div>
   );
 }
+
+const message = `function solution(input) {
+  // Your code logic here
+  return result;
+}
+
+const testInput = ...; // Input for the test case
+
+const output = solution(testInput);
+console.log(output);`;

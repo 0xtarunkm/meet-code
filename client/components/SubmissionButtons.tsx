@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 export default function SubmissionButtons({
   code,
@@ -18,6 +19,8 @@ export default function SubmissionButtons({
 
   const [accepted, setAccepted] = useState(false);
 
+  const router = useRouter();
+
   const handleSubmit = async () => {
     const res = await axios.post(`http://localhost:3000/api/submissions`, {
       code,
@@ -29,6 +32,13 @@ export default function SubmissionButtons({
     });
 
     console.log(res.data);
+
+    if (res.data) {
+      toast.success('Submitted');
+      router.reload();
+    } else {
+      toast.error('Something went wrong');
+    }
   };
 
   const handleRun = async () => {
@@ -42,12 +52,14 @@ export default function SubmissionButtons({
       }
     );
 
+    console.log(res.data);
+
     if (res.data.accepted) {
-      toast.success('Accepted');
+      toast.success('Accepted 🎉');
       setVerdict('Accepted');
       setAccepted(true);
     } else {
-      toast.error('Wrong Answer');
+      toast.error(`Wrong Answer : ${res.data.cleanedResult}`);
       setVerdict('Wrong Answer');
       setAccepted(false);
     }

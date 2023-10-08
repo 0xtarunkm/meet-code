@@ -1,4 +1,7 @@
 import { SubmissionInput } from '@/utils/inputValidation';
+import CodeMirror from '@uiw/react-codemirror';
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { javascript } from '@codemirror/lang-javascript';
 
 export default function Submissions({
   submissions,
@@ -15,7 +18,14 @@ export default function Submissions({
           <div className="space-y-6 text-base">
             <div className="">
               <p>Code:</p>
-              <pre>{JSON.stringify(submission.code, null, 2)}</pre>
+              {/* <p className="">{JSON.stringify(submission.code, null, 2)}</p> */}
+              <CodeMirror
+                value={submission.code}
+                theme={vscodeDark}
+                extensions={[javascript()]}
+                style={{ fontSize: '16px' }}
+                editable={false}
+              />
             </div>
             <div>
               <p>Verdict:</p>
