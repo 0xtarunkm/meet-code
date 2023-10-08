@@ -38,7 +38,12 @@ export default function Playground() {
   );
 }
 
-const message = `function solution(input) {
+const message = `/*
+  first run the code with the test case 
+  if one of the test case is passed 
+  then you can submit the code
+*/
+function solution(input) {
   // Your code logic here
   return result;
 }
