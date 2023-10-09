@@ -12,9 +12,8 @@ export default function ProblemsPage() {
 
   useEffect(() => {
     setLoading(true);
-
     axios
-      .get(`http://localhost:3000/api/problems?name=${search}`)
+      .get(`/api/problems?name=${search}`)
       .then((res) => {
         setProblems(res.data);
         setLoading(false);

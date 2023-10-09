@@ -43,7 +43,7 @@ export default function SubmissionButtons({
 
   const handleRun = async () => {
     const res = await axios.post(
-      'http://localhost:8000/api/v1/code-submit/run',
+      'http://localhost:8001/api/v1/code-submit/run',
       {
         code,
         language: 'js',

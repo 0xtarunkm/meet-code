@@ -25,10 +25,8 @@ export default function ProblemDescription({
 
   const handleSubmission = async () => {
     const res = await axios.get(
-      `http://localhost:3000/api/submissions?userId=${session?.user?.id}&problemId=${problem.id}`
+      `/api/submissions?userId=${session?.user?.id}&problemId=${problem.id}`
     );
-
-    console.log(res.data.submissions);
 
     setSubmissions(res.data.submissions);
   };
