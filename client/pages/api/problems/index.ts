@@ -8,10 +8,20 @@ export default async function ProblemHandler(
 ) {
   try {
     if (req.method === 'GET') {
+      const { name, difficulty } = req.query;
       const problems = await prisma.problem.findMany({
         include: {
           tags: true,
           testCases: true,
+        },
+        where: {
+          title: {
+            contains: name as string,
+            mode: 'insensitive',
+          },
+          difficulty: {
+            equals: difficulty as string,
+          },
         },
       });
 
