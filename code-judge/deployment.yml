@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-judge-deployment
+  labels:
+    app: code-judge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-judge
+  template:
+    metadata:
+      labels:
+        app: code-judge
+    spec:
+      containers:
+        - name: code-judge
+          image: tarunclub/code-judge:1.0.0
+          ports:
+            - containerPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-judge-service
+spec:
+  type: NodePort
+  selector:
+    app: code-judge
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 30007
