@@ -1,4 +1,4 @@
-# Meet-Code Application Readme
+# Meet-Code
 
 ## Table of Contents
 
