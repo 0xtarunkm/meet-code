@@ -82,7 +82,7 @@ Before running Meet-Code locally, make sure you have the following prerequisites
    cd client
    npm install
 
-   cd main-app
+   cd code-judge
    npm install
    ```
 
